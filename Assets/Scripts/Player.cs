@@ -21,7 +21,12 @@ public class Player : MovingObject {
 
 	private Animator animator;
 	private int food;
+
+#if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+
 	private Vector2 touchOrigin = -Vector2.one;
+
+#endif
 
 	protected override void Start () {
 		animator = GetComponent<Animator>();
@@ -43,7 +48,7 @@ public class Player : MovingObject {
 		int horizontal = 0;
 		int vertical = 0;
 
-		#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
 
 		horizontal = (int) Input.GetAxisRaw("Horizontal");
 		vertical = (int) Input.GetAxisRaw("Vertical");
@@ -52,7 +57,7 @@ public class Player : MovingObject {
 			vertical = 0;
 		}
 
-		#elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+#elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
 
 		if(Input.touchCount > 0){
 			Touch myTouch = Input.touches[0];
@@ -72,7 +77,7 @@ public class Player : MovingObject {
 			}
 		}
 
-		#endif
+#endif
 
 		if (horizontal != 0 || vertical != 0) {
 			AttemptMove<Wall>(horizontal, vertical);
