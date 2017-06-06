@@ -15,10 +15,11 @@ public class GameManager : MonoBehaviour {
 	private Text levelText;
 	private GameObject levelImage;
 	private BoardManager boardScript;
-	private int level = 0;
+	private int level = 1;
 	private List<Enemy> enemies;
 	private bool enemiesMoving;
 	private bool doingSetup = true;
+	private bool firstRun = true;
 
 	void Awake() {
 		if (instance == null) {
@@ -30,10 +31,14 @@ public class GameManager : MonoBehaviour {
 		DontDestroyOnLoad(gameObject);
 		enemies = new List<Enemy>();
 		boardScript = GetComponent<BoardManager>();
-		//InitGame();
+		InitGame();
 	}
 
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode){
+		if (firstRun) {
+			firstRun = false;
+			return;
+		}
 		level++;
 		InitGame();
 	}
@@ -66,9 +71,15 @@ public class GameManager : MonoBehaviour {
 	public void GameOver(){
 		levelText.text = "After " + level + " days, you starved.";
 		levelImage.SetActive(true);
-		enabled = false;
+		StartCoroutine(RestartGame());
 	}
-	
+
+	IEnumerator RestartGame(){
+		yield return new WaitForSeconds(levelStartDelay);
+		Destroy(gameObject);
+		SceneManager.LoadScene(0);
+	}
+
 	void Update () {
 		if (playersTurn || enemiesMoving || doingSetup) {
 			return;
