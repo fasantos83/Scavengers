@@ -44,11 +44,11 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void OnEnable(){
-		//SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		SceneManager.sceneLoaded += OnLevelFinishedLoading;
 	}
 
 	void OnDisable(){
-		//SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
 
 	void InitGame(){
