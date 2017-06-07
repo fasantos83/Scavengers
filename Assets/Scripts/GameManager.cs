@@ -61,6 +61,18 @@ public class GameManager : MonoBehaviour {
 
 		enemies.Clear();
 		boardScript.SetupScene(level);
+		RepositionCamera();
+	}
+
+	private void RepositionCamera(){
+		Transform cameraTransform = Camera.main.transform;
+
+		float offset = 0;
+		if (boardScript.columns - boardScript.defaultColumns == 2) {
+			offset++;
+		}
+		Vector3 newPosition = new Vector3(cameraTransform.position.x + offset, cameraTransform.position.y, cameraTransform.position.z);
+		cameraTransform.position = newPosition;
 	}
 
 	private void HideLevelImage(){
@@ -77,6 +89,7 @@ public class GameManager : MonoBehaviour {
 	IEnumerator RestartGame(){
 		yield return new WaitForSeconds(levelStartDelay);
 		Destroy(gameObject);
+		Destroy(SoundManager.instance.gameObject);
 		SceneManager.LoadScene(0);
 	}
 

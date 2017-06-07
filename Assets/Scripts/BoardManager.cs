@@ -19,6 +19,7 @@ public class BoardManager : MonoBehaviour {
 
 	public int columns = 8;
 	public int rows = 8;
+	public int defaultColumns;
 	public Count wallCount = new Count(5, 9);
 	public Count foodCount = new Count(1, 5);
 	public GameObject exit;
@@ -30,6 +31,10 @@ public class BoardManager : MonoBehaviour {
 
 	private Transform boardHolder;
 	private List<Vector3> gridPositions = new List<Vector3>();
+
+	void Start(){
+		defaultColumns = columns;
+	}
 
 	void InitialseList(){
 		gridPositions.Clear();
@@ -75,11 +80,13 @@ public class BoardManager : MonoBehaviour {
 	}
 
 	public void SetupScene(int level){
+		int enemyCount = (int) Mathf.Log(level, 2f);
+		columns = defaultColumns + enemyCount;
+		Mathf.Clamp(columns, defaultColumns, defaultColumns + 3);
 		BoardSetup();
 		InitialseList();
 		LayoutObjectAtRandom(wallTiles, wallCount.minimum, wallCount.maximum);
 		LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
-		int enemyCount = (int) Mathf.Log(level, 2f);
 		LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
 		Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
 	}

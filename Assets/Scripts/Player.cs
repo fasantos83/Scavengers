@@ -137,7 +137,6 @@ public class Player : MovingObject {
 		if (food <= 0) {
 			SoundManager.instance.PlaySingle(gameOverSound);
 			SoundManager.instance.musicSource.Stop();
-			Destroy(SoundManager.instance.gameObject);
 			GameManager.instance.GameOver();
 		}
 	}
