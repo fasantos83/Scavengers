@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour {
 		Transform cameraTransform = Camera.main.transform;
 
 		float offset = 0;
-		if (boardScript.columns - boardScript.defaultColumns == 2) {
+		if (boardScript.columns > 8) {
 			offset++;
 		}
 		Vector3 newPosition = new Vector3(cameraTransform.position.x + offset, cameraTransform.position.y, cameraTransform.position.z);
